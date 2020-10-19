@@ -4,6 +4,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 
+
+
 const PORT = 4000;
 
 express()
@@ -21,3 +23,9 @@ express()
 .use(morgan("tiny"))
 .use(bodyParser.json())
 .use(express.urlencoded({ extended: false }))
+
+
+
+.listen(PORT, () => {
+  console.info(`Listening on port ${PORT}`);
+});
