@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "dev": "nodemon -e js,ejs server.js"
   },
   "keywords": [],
   "author": "",
@@ -13,10 +14,20 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "file-system": "^2.2.2",
+    "mongodb": "^3.6.2",
     "morgan": "^1.10.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-babel": "^9.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "prettier": "^1.19.1"
   }
 }
