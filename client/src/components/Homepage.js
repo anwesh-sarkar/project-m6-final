@@ -1,14 +1,15 @@
 import Map from "./Map";
-import Avatar from "./login/Avatar";
+import AvatarButton from "./login/AvatarButton";
 
 import React from "react";
 import styled from "styled-components";
 
 const Homepage = () => {
   return (
-    <>
+    <div>
       <Map />
-    </>
+      <AvatarButton />
+    </div>
   );
 };
 

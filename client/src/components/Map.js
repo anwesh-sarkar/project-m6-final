@@ -9,7 +9,6 @@ import MapGL, {
 } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import styled from "styled-components";
-import Avatar from "./login/Avatar";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
@@ -70,7 +69,6 @@ const Map = () => {
             <NavigationControl />
           </Zoom>
         </MapComponents>
-        <Avatar />
       </MapGL>
     </Wrapper>
   );
@@ -79,7 +77,7 @@ const Map = () => {
 export default Map;
 
 const Wrapper = styled.div`
-  height: 100vh;
+  height: 95vh;
   display: flex;
   flex-direction: row;
 `;
