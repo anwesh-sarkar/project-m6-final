@@ -66,6 +66,7 @@ const Button = styled.button`
   background-color: black;
   color: white;
   font-size: 1.2em;
+  font-weight: bold;
   padding: 5px;
   cursor: pointer;
   &:hover {
