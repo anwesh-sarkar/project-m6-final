@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
-const validator = require("validator");
 const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+    unique: true,
   },
   name: {
     type: String,
@@ -21,8 +21,8 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     require: false,
   },
-  Offering: [{ type: mongoose.Schema.Types.ObjectId, ref: "Offering" }],
-  Wanted: [{ type: mongoose.Schema.Types.ObjectId, ref: "Wanted" }],
+  // offering: [{ type: mongoose.Schema.Types.ObjectId, ref: "Offering" }],
+  // wanted: [{ type: mongoose.Schema.Types.ObjectId, ref: "Wanted" }],
 });
 
 userSchema.pre("save", function(next) {
@@ -37,18 +37,5 @@ userSchema.pre("save", function(next) {
     next();
   });
 });
-
-userSchema.methods.comparePassword = function(password, cb) {
-  bcrypt.compare(password, this.password, (err, isMatch) => {
-    if (err) {
-      return cb(err);
-    } else {
-      if (!isMatch) {
-        return cb(null, isMatch);
-      }
-      return cb(null, this);
-    }
-  });
-};
 
 module.exports = mongoose.model("User", userSchema);

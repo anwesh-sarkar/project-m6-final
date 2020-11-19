@@ -9,7 +9,16 @@ import Settings from "./menu/Settings";
 import SetWanted from "./menu/SetWanted";
 import SetOffering from "./menu/SetOffering";
 
+import { loadUser } from "../actions";
+import { useDispatch, useSelector } from "react-redux";
+
 function App() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  React.useEffect(() => {
+    dispatch(loadUser());
+  }, []);
+
   return (
     <Router>
       <Switch>
@@ -28,10 +37,10 @@ function App() {
         <Route path="/settings">
           <Settings />
         </Route>
-        <Route path="/setoffering">
+        <Route path="/offering">
           <SetOffering />
         </Route>
-        <Route path="/setwanted">
+        <Route path="/wanted">
           <SetWanted />
         </Route>
       </Switch>

@@ -4,6 +4,9 @@ const OfferingSchema = new mongoose.Schema({
   name: {
     type: String,
   },
+  user: {
+    type: String,
+  },
 });
 
-module.exports = Offering = mongoose.model("Offering", OfferingSchema);
+module.exports = mongoose.model("Offering", OfferingSchema);

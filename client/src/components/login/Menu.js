@@ -1,11 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../actions";
 
 const Menu = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  if (isLoggedIn) {
+  if (isAuthenticated) {
     return (
       <MenuList>
         <MenuItem>
@@ -14,18 +17,18 @@ const Menu = () => {
           </Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/setoffering">
+          <Link to="/offering">
             <Button>Set Offering</Button>
           </Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/setwanted">
+          <Link to="/wanted">
             <Button>Set Wanted</Button>
           </Link>
         </MenuItem>
         <MenuItem>
           <Link to="/logout">
-            <Button>Logout</Button>
+            <Button onClick={() => dispatch(logout())}>Logout</Button>
           </Link>
         </MenuItem>
       </MenuList>
@@ -53,7 +56,7 @@ export default Menu;
 const MenuList = styled.ul`
   display: flex;
   flex-direction: row;
-  transform: translate(70vw, -94.5vh);
+  /* transform: translate(70vw, -94.5vh); */
 `;
 
 const MenuItem = styled.li`

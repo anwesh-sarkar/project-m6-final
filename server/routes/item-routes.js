@@ -1,31 +1,38 @@
 const router = require("express").Router();
+const auth = require("../middleware/auth-middleware");
 const ItemOffering = require("../models/Offering");
 
-router.get("/offering", (req, res) => {
-  ItemOffering.find().then((items) => res.status(200).json({ items }));
+router.get("/offering", auth, (req, res) => {
+  ItemOffering.find({ user: req.user._id }).then((items) =>
+    res.status(200).json({ items })
+  );
 });
 
-router.post("/offering", async (req, res) => {
+router.post("/offering", auth, async (req, res) => {
   const newOffer = new ItemOffering({
     name: req.body.name,
+    user: req.body.user,
   });
-  try {
-    const item = await newOffer.save((err, item) => {
-      if (err) {
-        res.status(503).json({
-          message: "Error occurred while saving. Please try again",
-          status: "503",
-        });
-      } else {
-        res
-          .status(201)
-          .json({ message: "Item successfully created", status: "201", item });
-      }
-      return item;
-    });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  console.log(req.body.user);
+
+  const item = newOffer.save((err, item) => {
+    if (err) {
+      res.status(503).json({
+        message: "Error occurred while saving. Please try again",
+        status: "503",
+      });
+    } else {
+      //await req.user.offering.push(newOffer);
+
+      // const savedItem = await req.user.save();
+
+      res.status(201).json({
+        message: "Item successfully created",
+        status: "201",
+        item,
+      });
+    }
+  });
 });
 
 router.delete("/offering/:id", async (req, res) => {
@@ -39,7 +46,7 @@ router.delete("/offering/:id", async (req, res) => {
     if (!deletedItem) {
       res.status(400).json({ message: "Something went wrong. Try again" });
     }
-    res.status(200).json({ message: "Item deleted" });
+    res.status(200).json({ message: "Item deleted", id });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

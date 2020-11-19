@@ -7,7 +7,7 @@ const Homepage = () => {
   return (
     <div>
       <Map />
-      <AvatarButton />
+      <AvatarButton style={{ transform: "translate(93.5vw, -94.5vh)" }} />
     </div>
   );
 };

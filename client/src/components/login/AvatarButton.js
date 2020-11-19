@@ -12,21 +12,23 @@ const AvatarButton = () => {
   };
 
   return (
-    <>
+    <Wrapper>
       <Button onClick={toggleButton}>
         <FaUserCircle size={75} />
       </Button>
 
       {showMenuModal && <Menu />}
-    </>
+    </Wrapper>
   );
 };
 
 export default AvatarButton;
 
+const Wrapper = styled.div``;
+
 const Button = styled.button`
   position: absolute;
-  transform: translate(93.5vw, -94.5vh);
+  /* transform: translate(93.5vw, -94.5vh); */
   background: none;
   border: none;
   z-index: 1;

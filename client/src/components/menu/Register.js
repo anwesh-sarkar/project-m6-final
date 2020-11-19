@@ -1,10 +1,41 @@
 import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { register } from "../../actions";
+import AvatarButton from "../../components/login/AvatarButton";
 
 const Register = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [registerUser, setRegisterUser] = React.useState({
+    name: "",
+    username: "",
+    password: "",
+    message: null,
+  });
+
   const [imgUpload, setImgUpload] = React.useState(
     "https://www.edgehill.ac.uk/wp-content/uploads/fa-user-circle-o.png"
   );
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+
+    setRegisterUser({
+      ...registerUser,
+      [e.target.name]: value,
+    });
+  };
+
+  const checkFields =
+    !registerUser.name || !registerUser.username || !registerUser.password;
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    dispatch(register(registerUser));
+    history.push("/");
+  };
 
   const handleImageUpload = (e) => {
     const reader = new FileReader();
@@ -18,6 +49,7 @@ const Register = () => {
 
   return (
     <Wrapper>
+      <AvatarButton />
       <InputRegistration>
         <h1>Register</h1>
         <h3>
@@ -28,22 +60,48 @@ const Register = () => {
         <Form>
           <Label>
             <Title>Name:</Title>
-            <Input type="text" required="required" />
+            <Input
+              name="name"
+              id="name"
+              type="text"
+              placeholder="Name"
+              required="required"
+              value={registerUser.name}
+              onChange={handleChange}
+            />
           </Label>
           <Label>
             <Title>Email Address:</Title>
-            <Input type="text" required="required" />
+            <Input
+              name="username"
+              id="username"
+              type="text"
+              placeholder="Email"
+              required="required"
+              value={registerUser.username}
+              onChange={handleChange}
+            />
           </Label>
           <Label>
             <Title>Password:</Title>
-            <Input type="text" required="required" />
+            <Input
+              name="password"
+              id="password"
+              type="text"
+              placeholder="Password"
+              required="required"
+              value={registerUser.password}
+              onChange={handleChange}
+            />
           </Label>
           <Label>
             <Title>Confirm Password:</Title>
             <Input type="text" required="required" />
           </Label>
         </Form>
-        <Button>Submit</Button>
+        <Button disabled={checkFields} onClick={handleClick}>
+          Register
+        </Button>
       </InputRegistration>
       <ImageUpload>
         <h3>Upload Profile Picture</h3>
@@ -113,6 +171,9 @@ const Button = styled.button`
   font-weight: bold;
   &:hover {
     background-color: purple;
+  }
+  &:disabled {
+    background-color: grey;
   }
 `;
 

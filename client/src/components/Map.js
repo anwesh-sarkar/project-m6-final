@@ -31,9 +31,6 @@ const Map = () => {
     (newViewport) => setViewport(newViewport),
     []
   );
-
-  console.log(viewport.latitude);
-  console.log(viewport.longitude);
   return (
     <Wrapper>
       {/* <div
