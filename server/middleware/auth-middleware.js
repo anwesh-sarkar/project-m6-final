@@ -3,10 +3,9 @@ const { SECRET_KEY } = process.env;
 
 function auth(req, res, next) {
   const token = req.header("x-auth-token");
-  console.log(req.headers);
   console.log(token);
   if (!token) {
-    return res.status(401).json({ message: "No token authorisation" });
+    return res.status(400).json({ message: "No token authorisation" });
   }
 
   try {
@@ -15,7 +14,7 @@ function auth(req, res, next) {
     req.user = user;
     next();
   } catch (err) {
-    res.status(400).json({ message: "Invalid Token" });
+    return res.status(417).json({ message: "Invalid Token" });
   }
 }
 

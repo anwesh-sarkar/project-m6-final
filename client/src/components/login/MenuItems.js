@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../actions";
+import { logout } from "../actions/auth-actions";
 
-const Menu = () => {
+const MenuItems = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
@@ -51,7 +51,7 @@ const Menu = () => {
   }
 };
 
-export default Menu;
+export default MenuItems;
 
 const MenuList = styled.ul`
   display: flex;

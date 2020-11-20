@@ -1,19 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import { addItem } from "../../actions";
+import { addOfferedItem } from "../actions/offereditem-actions";
 import { useDispatch, useSelector } from "react-redux";
 
-const AddItemModal = () => {
+const AddOfferedItemModal = () => {
   const dispatch = useDispatch();
 
   const [item, setItem] = React.useState(null);
-  const [showAddItemModal, setShowAddItemModal] = React.useState(false);
+  const [
+    showsetShowAddOfferedItemModal,
+    setShowsetShowAddOfferedItemModal,
+  ] = React.useState(false);
 
   const user = useSelector((state) => state.auth.user);
   console.log(user);
   const showModal = () => {
-    setShowAddItemModal(!showAddItemModal);
-    console.log(showAddItemModal);
+    setShowsetShowAddOfferedItemModal(!showsetShowAddOfferedItemModal);
+    console.log(showsetShowAddOfferedItemModal);
   };
 
   const onChange = (e) => {
@@ -28,7 +31,7 @@ const AddItemModal = () => {
       user: user._id,
     };
 
-    dispatch(addItem(newItem));
+    dispatch(addOfferedItem(newItem));
     showModal();
   };
 
@@ -45,7 +48,7 @@ const AddItemModal = () => {
   );
 };
 
-export default AddItemModal;
+export default AddOfferedItemModal;
 
 const Wrapper = styled.div`
   display: flex;

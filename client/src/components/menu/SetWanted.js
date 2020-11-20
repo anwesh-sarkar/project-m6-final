@@ -1,27 +1,51 @@
 import React from "react";
 import styled from "styled-components";
+import AddWantedItemModal from "../items/AddWantedItemModal";
+import AvatarButton from "../login/AvatarButton";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getWantedItems,
+  deleteWantedItem,
+} from "../actions/wanteditem-actions";
 
 const SetWanted = () => {
-  return (
-    <Wrapper>
-      <h1>What Are You Looking For?</h1>
-      <OrderedList>
-        <ListItem>
-          <Input type="text" />
-          <DeleteButton>Delete</DeleteButton>
-        </ListItem>
-        <ListItem>
-          <Input type="text" />
-          <DeleteButton>Delete</DeleteButton>
-        </ListItem>
-        <ListItem>
-          <Input type="text" />
-          <DeleteButton>Delete</DeleteButton>
-        </ListItem>
-      </OrderedList>
-      <Button>Submit</Button>
-    </Wrapper>
-  );
+  const [loadingState, setLoadingState] = React.useState("loading");
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getWantedItems());
+    setLoadingState("loaded");
+  }, []);
+
+  const items = useSelector((state) => state.wanted.items);
+
+  if (loadingState === "loaded") {
+    return (
+      <>
+        <AvatarButton size={100} />
+        <Wrapper>
+          <h1>What Are You Looking For?</h1>
+
+          <OrderedList>
+            {items.map((item, _id) => (
+              <ListItem key={item._id}>
+                {item.name}
+                <DeleteButton
+                  onClick={() => dispatch(deleteWantedItem(item._id))}
+                >
+                  Delete
+                </DeleteButton>
+              </ListItem>
+            ))}
+          </OrderedList>
+
+          <AddWantedItemModal />
+        </Wrapper>
+      </>
+    );
+  } else {
+    return <div>Loading..</div>;
+  }
 };
 
 export default SetWanted;
@@ -30,7 +54,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 70vh;
-  width: 80vw;
+  width: 100vw;
   border: 1px solid black;
   align-items: center;
   margin: 0 auto;

@@ -2,17 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import AvatarButton from "../../components/login/AvatarButton";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../../actions";
+import { login } from "../../components/actions/auth-actions";
+import { clearErrors } from "../../components/actions/error-actions";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const error = useSelector((state) => state.error);
+  const errorMessage = Object.values(error.message);
 
   const [loginUser, setLoginUser] = React.useState({
     username: "",
     password: "",
-    message: null,
   });
 
   const handleChange = (e) => {
@@ -28,6 +31,13 @@ const Login = () => {
     e.preventDefault();
     dispatch(login(loginUser));
   };
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/");
+      dispatch(clearErrors());
+    }
+  });
 
   return (
     <Wrapper>
@@ -61,6 +71,9 @@ const Login = () => {
           </Label>
         </Form>
         <Button onClick={handleSubmit}>Submit</Button>
+        {error.status == 400 || error.status == 403 ? (
+          <div>{errorMessage}</div>
+        ) : null}
       </InputRegistration>
     </Wrapper>
   );

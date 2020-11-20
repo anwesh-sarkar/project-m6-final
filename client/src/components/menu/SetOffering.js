@@ -1,16 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import AddItemModal from "../items/AddItemModal";
+import AddOfferedItemModal from "../items/AddOfferedItemModal";
 import AvatarButton from "../login/AvatarButton";
 import { useSelector, useDispatch } from "react-redux";
-import { loadUser, getItems, deleteItem } from "../../actions";
+import {
+  getOfferedItems,
+  deleteOfferedItem,
+} from "../actions/offereditem-actions";
 
 const SetOffering = () => {
   const [loadingState, setLoadingState] = React.useState("loading");
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(getItems());
+    dispatch(getOfferedItems());
     setLoadingState("loaded");
   }, []);
 
@@ -27,14 +30,16 @@ const SetOffering = () => {
             {items.map((item, _id) => (
               <ListItem key={item._id}>
                 {item.name}
-                <DeleteButton onClick={() => dispatch(deleteItem(item._id))}>
+                <DeleteButton
+                  onClick={() => dispatch(deleteOfferedItem(item._id))}
+                >
                   Delete
                 </DeleteButton>
               </ListItem>
             ))}
           </OrderedList>
 
-          <AddItemModal />
+          <AddOfferedItemModal />
         </Wrapper>
       </>
     );

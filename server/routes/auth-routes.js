@@ -19,18 +19,20 @@ const signToken = (userId) => {
 };
 
 router.post("/register", (req, res) => {
-  const { username, name, password, role } = req.body;
-  console.log(username);
+  const { username, name, password, confirmPassword, role } = req.body;
+  console.log(username, name, password, confirmPassword);
 
-  if (!username || !name || !password) {
+  if (!username || !name || !password || !confirmPassword) {
     return res.status(400).json({ message: "Please enter all fields" });
+  }
+
+  if (password !== confirmPassword) {
+    return res.status(400).json({ message: "Passwords don't match" });
   }
 
   User.findOne({ username }).then((user) => {
     if (user) {
-      res
-        .status(400)
-        .json({ message: "Email already registered", status: "400", user });
+      return res.status(403).json({ message: "Email already registered" });
     } else {
       const newUser = new User({ username, name, password, role });
       console.log(newUser);
@@ -52,10 +54,9 @@ router.post("/register", (req, res) => {
           });
         })
         .catch((err) => {
-          res.status(503).json({
-            message: "Error occurred while saving. Please try again",
-            status: "503",
-            err,
+          res.status(400).json({
+            message: err.message,
+            status: "400",
           });
         });
     }

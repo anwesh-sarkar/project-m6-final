@@ -1,7 +1,7 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import styled from "styled-components";
-import Menu from "./Menu";
+import MenuItems from "./MenuItems";
 
 const AvatarButton = () => {
   const [showMenuModal, setShowMenuModal] = React.useState(false);
@@ -17,7 +17,7 @@ const AvatarButton = () => {
         <FaUserCircle size={75} />
       </Button>
 
-      {showMenuModal && <Menu />}
+      {showMenuModal && <MenuItems />}
     </Wrapper>
   );
 };
