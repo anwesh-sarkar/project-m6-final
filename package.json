@@ -1,7 +1,13 @@
 {
+  "scripts": {
+    "server": "nodemon index.js",
+    "client": "react-scripts start",
+    "start": "concurrently \"npm start server\"  \"npm start client\""
+  },
   "dependencies": {
     "assert": "^2.0.0",
     "camelcase": "^6.1.0",
+    "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongodb": "^3.6.2",

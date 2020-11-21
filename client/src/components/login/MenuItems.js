@@ -1,38 +1,51 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../actions/auth-actions";
 
-const Menu = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+const MenuItems = () => {
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  if (isLoggedIn) {
+  if (isAuthenticated) {
     return (
       <MenuList>
+        <MenuItem>
+          <Link to="/">
+            <Button>Home</Button>
+          </Link>
+        </MenuItem>
         <MenuItem>
           <Link to="/settings">
             <Button>Settings</Button>
           </Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/setoffering">
+          <Link to="/offering">
             <Button>Set Offering</Button>
           </Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/setwanted">
+          <Link to="/wanted">
             <Button>Set Wanted</Button>
           </Link>
         </MenuItem>
         <MenuItem>
           <Link to="/logout">
-            <Button>Logout</Button>
+            <Button onClick={() => dispatch(logout())}>Logout</Button>
           </Link>
         </MenuItem>
       </MenuList>
     );
   } else {
     return (
-      <MenuList style={{ transform: "translate(80.9vw, -94.5vh)" }}>
+      <MenuList>
+        <MenuItem>
+          <Link to="/">
+            <Button>Home</Button>
+          </Link>
+        </MenuItem>
         <MenuItem>
           <Link to="/login">
             <Button>Login</Button>
@@ -48,12 +61,14 @@ const Menu = () => {
   }
 };
 
-export default Menu;
+export default MenuItems;
 
 const MenuList = styled.ul`
   display: flex;
   flex-direction: row;
-  transform: translate(70vw, -94.5vh);
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
 `;
 
 const MenuItem = styled.li`
@@ -66,6 +81,7 @@ const Button = styled.button`
   background-color: black;
   color: white;
   font-size: 1.2em;
+  font-weight: bold;
   padding: 5px;
   cursor: pointer;
   &:hover {
