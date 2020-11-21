@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import AvatarButton from "../../components/login/AvatarButton";
+import MenuBar from "../../components/login/MenuBar";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../../components/actions/auth-actions";
 import { clearErrors } from "../../components/actions/error-actions";
@@ -41,7 +41,7 @@ const Login = () => {
 
   return (
     <Wrapper>
-      <AvatarButton />
+      <MenuBar />
       <InputRegistration>
         <h1>Login</h1>
         <h3>
@@ -83,7 +83,7 @@ export default Login;
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 70vh;
   width: 100vw;
   border: 1px solid black;

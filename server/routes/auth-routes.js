@@ -68,11 +68,13 @@ router.post("/login", (req, res) => {
   console.log(username, password);
 
   if (!username || !password) {
+    console.log("Validation");
     return res.status(400).json({ message: "Please enter all fields" });
   }
 
   User.findOne({ username })
     .then((user) => {
+      console.log("inside find user");
       if (!user) {
         return res.status(400).json({ message: "User does not exist" });
       }
@@ -82,6 +84,7 @@ router.post("/login", (req, res) => {
         if (err) throw err;
         if (isMatch) {
           const token = signToken(user._id);
+          console.log(token);
 
           res.status(200).json({
             isAuthenticated: true,

@@ -8,8 +8,8 @@ import Register from "./menu/Register";
 import Settings from "./menu/Settings";
 import SetWanted from "./menu/SetWanted";
 import SetOffering from "./menu/SetOffering";
-import PrivateRoute from "../hocs/PrivateRoute";
 import PublicRoute from "../hocs/PublicRoute";
+import PrivateRoute from "../hocs/PrivateRoute";
 
 import { loadUser } from "../components/actions/auth-actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,12 +24,16 @@ function App() {
   return (
     <Router>
       <Switch>
-        <PublicRoute exact path="/" component={Homepage} />
-        <PublicRoute path="/login" component={Login} />
-        <PublicRoute path="/register" component={Register} />
-        <PrivateRoute path="/logout" component={Logout} />
-        <PrivateRoute path="/settings" componenet={Settings} />
-        <PrivateRoute path="/offering" componenet={SetOffering} />
+        <Route exact path="/" component={Homepage} />
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/register" component={Register} />
+        <Route path="/logout" component={Logout} />
+        <Route path="/settings" componenet={Settings}>
+          <Settings />
+        </Route>
+        <Route path="/offering" componenet={SetOffering} />
         <Route path="/wanted" component={SetWanted} />
       </Switch>
     </Router>

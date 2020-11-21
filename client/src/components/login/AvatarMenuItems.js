@@ -10,7 +10,7 @@ const MenuItems = () => {
 
   if (isAuthenticated) {
     return (
-      <MenuList>
+      <MenuList style={{ transform: "translate(64.5vw, -94.5vh)" }}>
         <MenuItem>
           <Link to="/">
             <Button>Home</Button>
@@ -66,9 +66,7 @@ export default MenuItems;
 const MenuList = styled.ul`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  margin: 0;
-  padding: 0;
+  transform: translate(75.5vw, -93.5vh);
 `;
 
 const MenuItem = styled.li`

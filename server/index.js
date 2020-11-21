@@ -8,6 +8,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/auth-routes");
 const itemRoutes = require("./routes/item-routes");
+const addressRoutes = require("./routes/address-routes");
 const mongoose = require("mongoose");
 const { MONGO_URI } = process.env;
 
@@ -40,6 +41,7 @@ express()
   .options("*", cors())
   .use("/auth", authRoutes)
   .use("/items", itemRoutes)
+  .use("/address", addressRoutes)
 
   .listen(PORT, () => {
     console.info(`Listening on port ${PORT}`);

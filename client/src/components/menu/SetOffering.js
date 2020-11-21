@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import AddOfferedItemModal from "../items/AddOfferedItemModal";
-import AvatarButton from "../login/AvatarButton";
+import MenuBar from "../login/MenuBar";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getOfferedItems,
@@ -22,7 +22,7 @@ const SetOffering = () => {
   if (loadingState === "loaded") {
     return (
       <>
-        <AvatarButton size={100} />
+        <MenuBar />
         <Wrapper>
           <h1>What Are You Offering?</h1>
 

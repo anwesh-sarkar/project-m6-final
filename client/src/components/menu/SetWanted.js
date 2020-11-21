@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import AddWantedItemModal from "../items/AddWantedItemModal";
-import AvatarButton from "../login/AvatarButton";
+import MenuBar from "../login/MenuBar";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getWantedItems,
@@ -22,7 +22,7 @@ const SetWanted = () => {
   if (loadingState === "loaded") {
     return (
       <>
-        <AvatarButton size={100} />
+        <MenuBar />
         <Wrapper>
           <h1>What Are You Looking For?</h1>
 

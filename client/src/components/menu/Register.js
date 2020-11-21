@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { register } from "../../components/actions/auth-actions";
 import { clearErrors } from "../../components/actions/error-actions";
-import AvatarButton from "../../components/login/AvatarButton";
+import MenuBar from "../../components/login/MenuBar";
 
 const Register = () => {
   const history = useHistory();
@@ -60,74 +60,76 @@ const Register = () => {
   } else {
     return (
       <Wrapper>
-        <AvatarButton />
-        <InputRegistration>
-          <h1>Register</h1>
-          <h3>
-            Welcome to Kindred! We are excited about your journey into breaking
-            away from capitalism and building relationships! Please fill in your
-            details to register with us.
-          </h3>
-          <Form>
-            <Label>
-              <Title>Name:</Title>
-              <Input
-                name="name"
-                id="name"
-                type="text"
-                placeholder="Name"
-                required="required"
-                value={registerUser.name}
-                onChange={handleChange}
-              />
-            </Label>
-            <Label>
-              <Title>Email Address:</Title>
-              <Input
-                name="username"
-                id="username"
-                type="text"
-                placeholder="Email"
-                required="required"
-                value={registerUser.username}
-                onChange={handleChange}
-              />
-            </Label>
-            <Label>
-              <Title>Password:</Title>
-              <Input
-                name="password"
-                id="password"
-                type="text"
-                placeholder="Password"
-                required="required"
-                value={registerUser.password}
-                onChange={handleChange}
-              />
-            </Label>
-            <Label>
-              <Title>Confirm Password:</Title>
-              <Input
-                name="confirmPassword"
-                id="confirmPassword"
-                type="text"
-                placeholder="Confirm Password"
-                required="required"
-                value={registerUser.confirmPassword}
-                onChange={handleChange}
-              />
-            </Label>
-          </Form>
-          <Button onClick={handleClick}>Register</Button>
-          {error.status === 400 || error.status === 403 ? (
-            <div>{errorMessage}</div>
-          ) : null}
-        </InputRegistration>
-        <ImageUpload>
-          <h3>Upload Profile Picture</h3>
-          <Image src={imgUpload} />
-          <Input type="file" accept="image/*" onChange={handleImageUpload} />
-        </ImageUpload>
+        <MenuBar />
+        <RegistrationForm>
+          <InputRegistration>
+            <h1>Register</h1>
+            <h3>
+              Welcome to Kindred! We are excited about your journey into
+              breaking away from capitalism and building relationships! Please
+              fill in your details to register with us.
+            </h3>
+            <Form>
+              <Label>
+                <Title>Name:</Title>
+                <Input
+                  name="name"
+                  id="name"
+                  type="text"
+                  placeholder="Name"
+                  required="required"
+                  value={registerUser.name}
+                  onChange={handleChange}
+                />
+              </Label>
+              <Label>
+                <Title>Email Address:</Title>
+                <Input
+                  name="username"
+                  id="username"
+                  type="text"
+                  placeholder="Email"
+                  required="required"
+                  value={registerUser.username}
+                  onChange={handleChange}
+                />
+              </Label>
+              <Label>
+                <Title>Password:</Title>
+                <Input
+                  name="password"
+                  id="password"
+                  type="text"
+                  placeholder="Password"
+                  required="required"
+                  value={registerUser.password}
+                  onChange={handleChange}
+                />
+              </Label>
+              <Label>
+                <Title>Confirm Password:</Title>
+                <Input
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  type="text"
+                  placeholder="Confirm Password"
+                  required="required"
+                  value={registerUser.confirmPassword}
+                  onChange={handleChange}
+                />
+              </Label>
+            </Form>
+            <Button onClick={handleClick}>Register</Button>
+            {error.status === 400 || error.status === 403 ? (
+              <div>{errorMessage}</div>
+            ) : null}
+          </InputRegistration>
+          <ImageUpload>
+            <h3>Upload Profile Picture</h3>
+            <Image src={imgUpload} />
+            <Input type="file" accept="image/*" onChange={handleImageUpload} />
+          </ImageUpload>
+        </RegistrationForm>
       </Wrapper>
     );
   }
@@ -137,11 +139,16 @@ export default Register;
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 70vh;
   width: 100vw;
   border: 1px solid black;
   align-items: center;
+`;
+
+const RegistrationForm = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 const InputRegistration = styled.div`
@@ -150,6 +157,7 @@ const InputRegistration = styled.div`
   width: 50vw;
   height: 65vh;
   padding: 25px;
+  margin-left: 25px;
 `;
 
 const ImageUpload = styled.div`
