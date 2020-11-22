@@ -2,20 +2,30 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import React from "react";
-import MapGL, {
+import ReactMapGL, {
   GeolocateControl,
   NavigationControl,
+  Marker,
   Popup,
 } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllUsersAddress } from "./actions/users-actions";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 const Map = () => {
+  const allUsers = useSelector((state) => state.allUsers.users);
+  console.log(allUsers);
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(getAllUsersAddress());
+  }, []);
+
   const [viewport, setViewport] = React.useState({
-    latitude: 37.7577,
-    longitude: -122.4376,
+    latitude: 45.5017,
+    longitude: -73.5673,
     zoom: 8,
   });
 
@@ -31,6 +41,12 @@ const Map = () => {
     (newViewport) => setViewport(newViewport),
     []
   );
+
+  const eachUser = Object.values(
+    allUsers.filter((user) => user.location.coordinates.length === 2)
+  );
+
+  //mapboxApiAccessToken={MAPBOX_TOKEN}
   return (
     <Wrapper>
       {/* <div
@@ -38,7 +54,7 @@ const Map = () => {
         style={{ position: "absolute", top: 20, left: 500, zIndex: 1 }}
       /> */}
 
-      <MapGL
+      <ReactMapGL
         ref={mapRef}
         {...viewport}
         width="100%"
@@ -47,26 +63,35 @@ const Map = () => {
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
-        <MapComponents>
-          <SearchLocation>
-            <Geocoder
-              mapRef={mapRef}
-              containerRef={geocoderContainerRef}
-              onViewportChange={handleViewportChange}
-              mapboxApiAccessToken={MAPBOX_TOKEN}
-              position="top-left"
-            />
-            <GeolocateControl
-              style={geolocateStyle}
-              positionOptions={{ enableHighAccuracy: true }}
-              trackUserLocation={true}
-            />
-          </SearchLocation>
-          <Zoom>
-            <NavigationControl />
-          </Zoom>
-        </MapComponents>
-      </MapGL>
+        {eachUser.map((user) => (
+          <Marker
+            longitude={user.location.coordinates[0]}
+            latitude={user.location.coordinates[1]}
+          >
+            <button>
+              <img src={"https://img.icons8.com/color/48/000000/marker.png"} />
+            </button>
+          </Marker>
+        ))}
+
+        <SearchComponents>
+          <Geocoder
+            mapRef={mapRef}
+            containerRef={geocoderContainerRef}
+            onViewportChange={handleViewportChange}
+            position="top-left"
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+          />
+          <GeolocateControl
+            style={geolocateStyle}
+            positionOptions={{ enableHighAccuracy: true }}
+            trackUserLocation={true}
+          />
+        </SearchComponents>
+        <Zoom>
+          <NavigationControl />
+        </Zoom>
+      </ReactMapGL>
     </Wrapper>
   );
 };
@@ -84,7 +109,7 @@ const MapComponents = styled.div`
   flex-direction: column;
 `;
 
-const SearchLocation = styled.div`
+const SearchComponents = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;

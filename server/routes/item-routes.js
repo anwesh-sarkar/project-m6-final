@@ -4,8 +4,9 @@ const ItemOffering = require("../models/Offering");
 const ItemWanted = require("../models/Wanted");
 
 // Offered Item routes
-router.get("/offering", auth, (req, res) => {
-  ItemOffering.find({ user: req.user._id }).then((items) =>
+router.get("/offering", auth, async (req, res) => {
+  console.log(req.user);
+  await ItemOffering.find({ user: req.user }).then((items) =>
     res.status(200).json({ items })
   );
 });
@@ -17,7 +18,7 @@ router.post("/offering", auth, async (req, res) => {
   });
   console.log(req.body.user);
 
-  const item = newOffer.save((err, item) => {
+  const item = await newOffer.save((err, item) => {
     if (err) {
       res.status(503).json({
         message: "Error occurred while saving. Please try again",
@@ -55,8 +56,8 @@ router.delete("/offering/:id", auth, async (req, res) => {
 });
 
 // Wanted Item routes
-router.get("/wanted", auth, (req, res) => {
-  ItemWanted.find({ user: req.user._id }).then((items) =>
+router.get("/wanted", auth, async (req, res) => {
+  await ItemWanted.find({ user: req.user }).then((items) =>
     res.status(200).json({ items })
   );
 });
@@ -68,7 +69,7 @@ router.post("/wanted", auth, async (req, res) => {
   });
   console.log(req.body.user);
 
-  const item = newWanted.save((err, item) => {
+  const item = await newWanted.save((err, item) => {
     if (err) {
       res.status(503).json({
         message: "Error occurred while saving. Please try again",

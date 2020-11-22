@@ -34,7 +34,7 @@ export const addOfferedItem = (item) => (dispatch, getState) => {
     .then((res) => res.json())
     .then((data) => {
       dispatch({
-        type: "ADD__OFFERED_ITEM",
+        type: "ADD_OFFERED_ITEM",
         payload: data.item,
       });
     })

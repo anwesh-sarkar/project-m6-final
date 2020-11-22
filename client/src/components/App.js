@@ -33,8 +33,12 @@ function App() {
         <Route path="/settings" componenet={Settings}>
           <Settings />
         </Route>
-        <Route path="/offering" componenet={SetOffering} />
-        <Route path="/wanted" component={SetWanted} />
+        <Route path="/offering" componenet={SetOffering}>
+          <SetOffering />
+        </Route>
+        <Route path="/wanted" component={SetWanted}>
+          <SetWanted />
+        </Route>
       </Switch>
     </Router>
   );

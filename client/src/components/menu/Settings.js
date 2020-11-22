@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { register } from "../../components/actions/auth-actions";
+import { updateAddress } from "../../components/actions/address-actions";
 import { clearErrors } from "../../components/actions/error-actions";
 import MenuBar from "../../components/login/MenuBar";
 
@@ -10,6 +10,7 @@ const Settings = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
   const error = useSelector((state) => state.error);
   const errorMessage = Object.values(error.message);
   const [address, setAddress] = React.useState({
@@ -17,6 +18,7 @@ const Settings = () => {
     city: "",
     state: "",
     country: "",
+    user: null,
   });
 
   const [imgUpload, setImgUpload] = React.useState(
@@ -29,12 +31,14 @@ const Settings = () => {
     setAddress({
       ...address,
       [e.target.name]: value,
+      user: user._id,
     });
   };
 
   const handleClick = (e) => {
     e.preventDefault();
-    dispatch(register(address));
+    console.log(address);
+    dispatch(updateAddress(address));
   };
 
   const handleImageUpload = (e) => {
@@ -68,48 +72,48 @@ const Settings = () => {
               <Label>
                 <Title>Street:</Title>
                 <Input
-                  name="name"
-                  id="name"
+                  name="street"
+                  id="street"
                   type="text"
                   placeholder="Street"
                   required="required"
-                  value={address.name}
+                  value={address.street}
                   onChange={handleChange}
                 />
               </Label>
               <Label>
                 <Title>City:</Title>
                 <Input
-                  name="username"
-                  id="username"
+                  name="city"
+                  id="city"
                   type="text"
                   placeholder="City"
                   required="required"
-                  value={address.username}
+                  value={address.city}
                   onChange={handleChange}
                 />
               </Label>
               <Label>
                 <Title>Province/State:</Title>
                 <Input
-                  name="password"
-                  id="password"
+                  name="state"
+                  id="state"
                   type="text"
                   placeholder="Province/State"
                   required="required"
-                  value={address.password}
+                  value={address.state}
                   onChange={handleChange}
                 />
               </Label>
               <Label>
                 <Title>Country:</Title>
                 <Input
-                  name="confirmPassword"
-                  id="confirmPassword"
+                  name="country"
+                  id="country"
                   type="text"
                   placeholder="Country"
                   required="required"
-                  value={address.confirmPassword}
+                  value={address.country}
                   onChange={handleChange}
                 />
               </Label>

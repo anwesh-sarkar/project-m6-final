@@ -21,6 +21,17 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     require: false,
   },
+  location: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  },
   // offering: [{ type: mongoose.Schema.Types.ObjectId, ref: "Offering" }],
   // wanted: [{ type: mongoose.Schema.Types.ObjectId, ref: "Wanted" }],
 });
