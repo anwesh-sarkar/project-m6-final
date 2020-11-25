@@ -1,6 +1,6 @@
-const initialState = { address: null, user: null, loading: false };
+const initialState = { address: null, loading: false };
 
-export default function address(state = initialState, action) {
+export default function addressReducer(state = initialState, action) {
   switch (action.type) {
     case "GET_ADDRESS": {
       return {
@@ -22,6 +22,14 @@ export default function address(state = initialState, action) {
       return {
         ...state,
         loading: true,
+      };
+    }
+
+    case "UPDATE_ADDRESS_FAIL": {
+      return {
+        ...state,
+        address: null,
+        loading: false,
       };
     }
 

@@ -118,8 +118,6 @@ router.get("/user", auth, (req, res) => {
   User.findById({ _id: req.user.sub })
     .select("-password")
     .then((user) => res.json(user));
-
-  // res.status(200).json({ isAuthenticated: true, user: { username, role } });
 });
 
 module.exports = router;

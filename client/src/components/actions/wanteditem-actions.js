@@ -1,17 +1,24 @@
 import { getErrors, clearErrors } from "./error-actions";
 
-export const getWantedItems = () => (dispatch, getState) => {
+export const getWantedItems = (userId) => (dispatch, getState) => {
   dispatch(setItemsLoading());
   const token = getState().auth.token;
   console.log(token);
-  fetch("/items/wanted", {
+  fetch(`/items/wanted/${userId}`, {
     method: "GET",
     headers: {
       "Content-type": "application/json",
       "x-auth-token": token,
     },
   })
-    .then((res) => res.json())
+    .then(async (res) => {
+      const data = await res.json();
+      if (res.status >= 400) {
+        dispatch(getErrors(data.message, res.status, "GET_ITEM_ERROR"));
+      } else {
+        return data;
+      }
+    })
     .then((data) => {
       dispatch({
         type: "GET_WANTED_ITEMS",
@@ -43,14 +50,23 @@ export const addWantedItem = (item) => (dispatch, getState) => {
 
 export const deleteWantedItem = (id) => (dispatch, getState) => {
   const token = getState().auth.token;
-  fetch(`items/wanted/${id}`, {
+  const userId = getState().auth.user._id;
+  fetch(`items/wanted/${userId}/${id}`, {
     method: "DELETE",
     headers: {
       "Content-type": "application/json",
       "x-auth-token": token,
     },
   })
-    .then((res) => res.json())
+    .then(async (res) => {
+      const data = await res.json();
+      if (res.status >= 400) {
+        dispatch(getErrors(data.message, res.status, "DELETE_ITEM_ERROR"));
+      } else {
+        console.log(data);
+        return data;
+      }
+    })
     .then((data) => {
       console.log(data);
       dispatch({
