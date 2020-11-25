@@ -6,18 +6,27 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getOfferedItems,
   deleteOfferedItem,
+  getAllOfferedItems,
 } from "../actions/offereditem-actions";
 
 const SetOffering = () => {
   const [loadingState, setLoadingState] = React.useState("loading");
   const dispatch = useDispatch();
+  const allItems = useSelector((state) => state.offered.items);
+  const user = useSelector((state) => state.auth.user);
 
   React.useEffect(() => {
-    dispatch(getOfferedItems());
+    dispatch(getOfferedItems(user._id));
     setLoadingState("loaded");
   }, []);
 
-  const items = useSelector((state) => state.offered.items);
+  console.log(allItems);
+
+  const items = allItems.filter((item) => {
+    if (item.user && user._id) {
+      return item.user === user._id;
+    }
+  });
 
   if (loadingState === "loaded") {
     return (
@@ -31,7 +40,9 @@ const SetOffering = () => {
               <ListItem key={item._id}>
                 {item.name}
                 <DeleteButton
-                  onClick={() => dispatch(deleteOfferedItem(item._id))}
+                  onClick={(e) => {
+                    dispatch(deleteOfferedItem(item._id));
+                  }}
                 >
                   Delete
                 </DeleteButton>

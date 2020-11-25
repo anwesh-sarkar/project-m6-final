@@ -4,7 +4,7 @@ const User = require("../models/User");
 router.get("/allusers", async (req, res) => {
   const result = await User.find(
     {},
-    { username: 0, _id: 0, password: 0, role: 0 },
+    { username: 0, password: 0, role: 0 },
     (err, result) => {
       if (err) {
         res.status(400).json({ message: "Cannot get users", status: "400" });

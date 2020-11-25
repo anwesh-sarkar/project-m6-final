@@ -7,9 +7,8 @@ import { clearErrors } from "../../components/actions/error-actions";
 import MenuBar from "../../components/login/MenuBar";
 
 const Settings = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
-  const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
+  const { isLoading } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.auth.user);
   const error = useSelector((state) => state.error);
   const errorMessage = Object.values(error.message);
@@ -17,6 +16,7 @@ const Settings = () => {
     street: "",
     city: "",
     state: "",
+    zip: "",
     country: "",
     user: null,
   });
@@ -50,13 +50,6 @@ const Settings = () => {
     };
     reader.readAsDataURL(e.target.files[0]);
   };
-
-  // React.useEffect(() => {
-  //   if (isAuthenticated) {
-  //     history.push("/");
-  //     dispatch(clearErrors());
-  //   }
-  // });
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -102,6 +95,18 @@ const Settings = () => {
                   placeholder="Province/State"
                   required="required"
                   value={address.state}
+                  onChange={handleChange}
+                />
+              </Label>
+              <Label>
+                <Title>Postal/Zip Code:</Title>
+                <Input
+                  name="zip"
+                  id="zip"
+                  type="text"
+                  placeholder="Postal/Zip Code"
+                  required="required"
+                  value={address.zip}
                   onChange={handleChange}
                 />
               </Label>

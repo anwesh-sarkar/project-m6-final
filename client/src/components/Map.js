@@ -5,23 +5,23 @@ import React from "react";
 import ReactMapGL, {
   GeolocateControl,
   NavigationControl,
-  Marker,
   Popup,
 } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import styled from "styled-components";
+import MarkerComponent from "./mapComponents/Marker";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllUsersAddress } from "./actions/users-actions";
+import { getAllUsersAddress } from "../components/actions/users-actions";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 const Map = () => {
-  const allUsers = useSelector((state) => state.allUsers.users);
-  console.log(allUsers);
-  const dispatch = useDispatch();
-  React.useEffect(() => {
-    dispatch(getAllUsersAddress());
-  }, []);
+  // const allUsers = useSelector((state) => state.allUsers.users);
+  // console.log(allUsers);
+  // const dispatch = useDispatch();
+  // React.useEffect(() => {
+  //   dispatch(getAllUsersAddress());
+  // }, []);
 
   const [viewport, setViewport] = React.useState({
     latitude: 45.5017,
@@ -42,9 +42,9 @@ const Map = () => {
     []
   );
 
-  const eachUser = Object.values(
-    allUsers.filter((user) => user.location.coordinates.length === 2)
-  );
+  // const eachUser = Object.values(
+  //   allUsers.filter((user) => user.location.coordinates.length === 2)
+  // );
 
   //mapboxApiAccessToken={MAPBOX_TOKEN}
   return (
@@ -63,7 +63,7 @@ const Map = () => {
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
-        {eachUser.map((user) => (
+        {/* {eachUser.map((user) => (
           <Marker
             longitude={user.location.coordinates[0]}
             latitude={user.location.coordinates[1]}
@@ -72,7 +72,9 @@ const Map = () => {
               <img src={"https://img.icons8.com/color/48/000000/marker.png"} />
             </button>
           </Marker>
-        ))}
+        ))} */}
+
+        <MarkerComponent />
 
         <SearchComponents>
           <Geocoder

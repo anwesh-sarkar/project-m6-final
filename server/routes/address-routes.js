@@ -7,14 +7,16 @@ const { MAPBOX_ACCESS_TOKEN } = process.env;
 
 const geocoder = mbxGeocoding({ accessToken: MAPBOX_ACCESS_TOKEN });
 
-router.post("/updateaddress", async (req, res) => {
+router.post("/updateaddress", auth, async (req, res) => {
   console.log(req.body);
-  const { street, city, province, country, user } = req.body;
-  if (!street || !city || !country) {
+  const { street, city, province, zip, country, user } = req.body;
+  if (!street || !city || !zip || !country) {
     return res.status(400).json({ message: "Please enter mandatory fields " });
   }
 
-  const address = Object.values({ street, city, province, country }).join("");
+  const address = Object.values({ street, city, province, zip, country }).join(
+    ""
+  );
   console.log(address);
 
   const geoData = await geocoder

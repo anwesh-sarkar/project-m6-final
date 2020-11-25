@@ -32,8 +32,8 @@ const userSchema = new mongoose.Schema({
       required: true,
     },
   },
-  // offering: [{ type: mongoose.Schema.Types.ObjectId, ref: "Offering" }],
-  // wanted: [{ type: mongoose.Schema.Types.ObjectId, ref: "Wanted" }],
+  offering: [{ type: mongoose.Schema.Types.Mixed, ref: "Offering" }],
+  wanted: [{ type: mongoose.Schema.Types.Mixed, ref: "Wanted" }],
 });
 
 userSchema.pre("save", function(next) {

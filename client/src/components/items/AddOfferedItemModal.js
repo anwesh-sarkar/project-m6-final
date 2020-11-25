@@ -13,7 +13,6 @@ const AddOfferedItemModal = () => {
   ] = React.useState(false);
 
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
   const showModal = () => {
     setShowsetShowAddOfferedItemModal(!showsetShowAddOfferedItemModal);
     console.log(showsetShowAddOfferedItemModal);
@@ -30,7 +29,7 @@ const AddOfferedItemModal = () => {
       name: item,
       user: user._id,
     };
-
+    console.log(newItem);
     dispatch(addOfferedItem(newItem));
     showModal();
   };

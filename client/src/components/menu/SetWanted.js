@@ -11,14 +11,19 @@ import {
 const SetWanted = () => {
   const [loadingState, setLoadingState] = React.useState("loading");
   const dispatch = useDispatch();
+  const allItems = useSelector((state) => state.wanted.items);
+  const user = useSelector((state) => state.auth.user);
 
   React.useEffect(() => {
-    dispatch(getWantedItems());
+    dispatch(getWantedItems(user._id));
     setLoadingState("loaded");
   }, []);
 
-  const items = useSelector((state) => state.wanted.items);
-
+  const items = allItems.filter((item) => {
+    if (item.user && user._id) {
+      return item.user === user._id;
+    }
+  });
   if (loadingState === "loaded") {
     return (
       <>
@@ -31,7 +36,9 @@ const SetWanted = () => {
               <ListItem key={item._id}>
                 {item.name}
                 <DeleteButton
-                  onClick={() => dispatch(deleteWantedItem(item._id))}
+                  onClick={(e) => {
+                    dispatch(deleteWantedItem(item._id));
+                  }}
                 >
                   Delete
                 </DeleteButton>

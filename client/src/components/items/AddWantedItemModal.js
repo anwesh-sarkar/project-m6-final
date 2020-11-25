@@ -19,6 +19,7 @@ const AddWantedItemModal = () => {
   };
 
   const onChange = (e) => {
+    e.preventDefault();
     setItem(e.target.value);
   };
 
