@@ -1,12 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/auth-actions";
 
 const MenuItems = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout());
+    history.push("/");
+  };
 
   if (isAuthenticated) {
     return (
@@ -32,9 +39,7 @@ const MenuItems = () => {
           </Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/logout">
-            <Button onClick={() => dispatch(logout())}>Logout</Button>
-          </Link>
+          <Button onClick={(e) => handleLogout(e)}>Logout</Button>
         </MenuItem>
       </MenuList>
     );

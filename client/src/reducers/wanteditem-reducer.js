@@ -27,6 +27,13 @@ export default function wantedItemReducer(state = initialState, action) {
       };
     }
 
+    case "GET_ALL_WANTED_ITEMS": {
+      return {
+        ...state,
+        items: action.payload,
+        loading: false,
+      };
+    }
     default: {
       return state;
     }

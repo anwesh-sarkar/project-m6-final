@@ -6,6 +6,7 @@ import offeredItemReducer from "./offereditem-reducer";
 import wantedItemReducer from "./wanteditem-reducer";
 import addressReducer from "./address-reducer";
 import allUsersReducer from "./users-reducer";
+import searchTermReducer from "./searchterm-reducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -14,4 +15,5 @@ export default combineReducers({
   wanted: wantedItemReducer,
   address: addressReducer,
   allUsers: allUsersReducer,
+  search: searchTermReducer,
 });

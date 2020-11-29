@@ -115,4 +115,8 @@ export const register = ({ name, username, password, confirmPassword }) => (
     });
 };
 
-export const logout = () => (dispatch) => {};
+export const logout = () => {
+  return {
+    type: "LOGOUT_SUCCESS",
+  };
+};

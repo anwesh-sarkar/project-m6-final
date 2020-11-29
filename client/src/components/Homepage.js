@@ -19,7 +19,6 @@ const Homepage = () => {
     <div>
       <Map />
       <AvatarButton style={{ transform: "translate(93.5vw, -94.5vh)" }} />
-      {/* <TypeAhead /> */}
     </div>
   );
 };

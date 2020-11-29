@@ -106,14 +106,6 @@ router.post("/login", (req, res) => {
     });
 });
 
-// router.get("/logout", auth, (req, res) => {
-//   res.clearCookie("access_token");
-//   res.status(200).json({
-//     user: { username: "", name: "" },
-//     message: "Successfully logged out",
-//   });
-// });
-
 router.get("/user", auth, (req, res) => {
   User.findById({ _id: req.user.sub })
     .select("-password")

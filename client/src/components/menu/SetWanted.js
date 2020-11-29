@@ -7,14 +7,19 @@ import {
   getWantedItems,
   deleteWantedItem,
 } from "../actions/wanteditem-actions";
+import { useHistory } from "react-router-dom";
 
 const SetWanted = () => {
   const [loadingState, setLoadingState] = React.useState("loading");
+  const history = useHistory();
   const dispatch = useDispatch();
   const allItems = useSelector((state) => state.wanted.items);
-  const user = useSelector((state) => state.auth.user);
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   React.useEffect(() => {
+    if (!isAuthenticated) {
+      return history.push("/login");
+    }
     dispatch(getWantedItems(user._id));
     setLoadingState("loaded");
   }, []);

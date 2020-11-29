@@ -51,7 +51,8 @@ export const addOfferedItem = (item) => (dispatch, getState) => {
 
 export const deleteOfferedItem = (id) => (dispatch, getState) => {
   const token = getState().auth.token;
-  fetch(`items/offering/${id}`, {
+  const userid = getState().auth.user._id;
+  fetch(`items/offering/${userid}/${id}`, {
     method: "DELETE",
     headers: {
       "Content-type": "application/json",
