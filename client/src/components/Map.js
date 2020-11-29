@@ -2,27 +2,15 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import React from "react";
-import ReactMapGL, {
-  GeolocateControl,
-  NavigationControl,
-  Popup,
-} from "react-map-gl";
+import ReactMapGL, { GeolocateControl, NavigationControl } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import styled from "styled-components";
 import MarkerComponent from "./mapComponents/Marker";
-import { useSelector, useDispatch } from "react-redux";
-import { getAllUsersAddress } from "../components/actions/users-actions";
+import TypeAhead from "./mapComponents/Typeahead";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 const Map = () => {
-  // const allUsers = useSelector((state) => state.allUsers.users);
-  // console.log(allUsers);
-  // const dispatch = useDispatch();
-  // React.useEffect(() => {
-  //   dispatch(getAllUsersAddress());
-  // }, []);
-
   const [viewport, setViewport] = React.useState({
     latitude: 45.5017,
     longitude: -73.5673,
@@ -42,18 +30,8 @@ const Map = () => {
     []
   );
 
-  // const eachUser = Object.values(
-  //   allUsers.filter((user) => user.location.coordinates.length === 2)
-  // );
-
-  //mapboxApiAccessToken={MAPBOX_TOKEN}
   return (
     <Wrapper>
-      {/* <div
-        ref={geocoderContainerRef}
-        style={{ position: "absolute", top: 20, left: 500, zIndex: 1 }}
-      /> */}
-
       <ReactMapGL
         ref={mapRef}
         {...viewport}
@@ -63,17 +41,7 @@ const Map = () => {
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
-        {/* {eachUser.map((user) => (
-          <Marker
-            longitude={user.location.coordinates[0]}
-            latitude={user.location.coordinates[1]}
-          >
-            <button>
-              <img src={"https://img.icons8.com/color/48/000000/marker.png"} />
-            </button>
-          </Marker>
-        ))} */}
-
+        <TypeAhead />
         <MarkerComponent />
 
         <SearchComponents>

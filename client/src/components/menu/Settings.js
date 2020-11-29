@@ -8,8 +8,9 @@ import MenuBar from "../../components/login/MenuBar";
 
 const Settings = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { isLoading } = useSelector((state) => state.auth);
-  const user = useSelector((state) => state.auth.user);
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
   const error = useSelector((state) => state.error);
   const errorMessage = Object.values(error.message);
   const [address, setAddress] = React.useState({
@@ -50,6 +51,12 @@ const Settings = () => {
     };
     reader.readAsDataURL(e.target.files[0]);
   };
+
+  React.useEffect(() => {
+    if (!isAuthenticated) {
+      return history.push("/login");
+    }
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;

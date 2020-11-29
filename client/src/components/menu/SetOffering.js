@@ -8,14 +8,19 @@ import {
   deleteOfferedItem,
   getAllOfferedItems,
 } from "../actions/offereditem-actions";
+import { useHistory } from "react-router-dom";
 
 const SetOffering = () => {
   const [loadingState, setLoadingState] = React.useState("loading");
   const dispatch = useDispatch();
+  const history = useHistory();
   const allItems = useSelector((state) => state.offered.items);
-  const user = useSelector((state) => state.auth.user);
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   React.useEffect(() => {
+    if (!isAuthenticated) {
+      return history.push("/login");
+    }
     dispatch(getOfferedItems(user._id));
     setLoadingState("loaded");
   }, []);

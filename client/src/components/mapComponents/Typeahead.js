@@ -1,18 +1,21 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { getAllOfferedItems } from "../actions/offereditem-actions";
+import { getAllWantedItems } from "../actions/wanteditem-actions";
+import { searchTermAction } from "../actions/search-actions";
 
-const TypeAhead = ({ setIsOpen }) => {
+const TypeAhead = () => {
   const allOfferedItems = useSelector((state) => state.offered.items);
+  const allWantedItems = useSelector((state) => state.wanted.items);
   const dispatch = useDispatch();
-
-  // const currentFilter = data.filter;
 
   React.useEffect(() => {
     if (allOfferedItems === undefined) {
       dispatch(getAllOfferedItems());
+    }
+    if (allWantedItems === undefined) {
+      dispatch(getAllWantedItems());
     }
   }, [dispatch, allOfferedItems]);
 
@@ -21,17 +24,23 @@ const TypeAhead = ({ setIsOpen }) => {
   const searchRef = useRef(null);
 
   React.useEffect(() => {
-    if (allOfferedItems !== undefined) {
+    if (allOfferedItems !== undefined && allWantedItems !== undefined) {
       searchRef.current.focus();
     }
-  }, [allOfferedItems]);
+  }, [allOfferedItems, allWantedItems]);
   let matchedItemsArray = [];
   let resultsFound = true;
 
-  if (allOfferedItems !== undefined) {
-    matchedItemsArray = allOfferedItems.filter((item) => {
+  //convert All Offered Items object and All Wanted Items object to arrays and save them in allItems
+  Object.entries(allOfferedItems);
+  Object.entries(allWantedItems);
+  const allItems = [...allOfferedItems, ...allWantedItems];
+
+  if (allItems !== undefined) {
+    matchedItemsArray = allItems.filter((item) => {
       let LowerCaseSearch = searchTerm.toLowerCase();
       let itemLowerCaseName = item.name.toLowerCase();
+
       if (
         searchTerm !== "" &&
         searchTerm.length >= 2 &&
@@ -48,16 +57,17 @@ const TypeAhead = ({ setIsOpen }) => {
     }
   }
 
-  if (!allOfferedItems) {
+  if (!allItems) {
     return <div></div>;
   }
-
+  console.log(matchedItemsArray);
   return (
-    <Wrapper onClick={() => setIsOpen(false)}>
+    <Wrapper>
       <InnerWrapper onClick={(ev) => ev.stopPropagation()}>
         <Input
           ref={searchRef}
           value={searchTerm}
+          placeholder="Search for Items/Services"
           onChange={(ev) => {
             ev.stopPropagation();
             setSearchTerm(ev.target.value);
@@ -68,7 +78,7 @@ const TypeAhead = ({ setIsOpen }) => {
             <SearchResult>No search results found</SearchResult>
           </DropDown>
         ) : null}
-        {matchedItemsArray.length > 1 && (
+        {matchedItemsArray.length >= 1 && (
           <DropDown>
             {matchedItemsArray.map((item, index) => {
               let lowerCaseItemName = item.name.toLowerCase();
@@ -83,8 +93,7 @@ const TypeAhead = ({ setIsOpen }) => {
               return (
                 <SearchResult key={item._id + index}>
                   <ItemsPrediction
-                    to={`/items/${item._id}`}
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => dispatch(searchTermAction(item.name))}
                   >
                     <FirstSlice>
                       {`${firstSlice}`}
@@ -103,22 +112,23 @@ const TypeAhead = ({ setIsOpen }) => {
 export default TypeAhead;
 
 const Wrapper = styled.div`
-  height: 150vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  /* height: 80px; */
+  /* background-color: rgba(0, 0, 0, 0.5); */
   position: absolute;
-  z-index: 400;
+  z-index: 1;
   display: flex;
-  top: -300px;
+  /* transform: translate(45vw, -30vh); */
   justify-content: center;
   align-items: center;
   margin: 0;
-  width: 100%;
+  left: 400px;
+  width: 50%;
 `;
 
 const InnerWrapper = styled.div`
-  background: white;
-  z-index: 400;
-  width: 85%;
+  background: none;
+  z-index: 1;
+  width: 60%;
   border-radius: 5px;
   padding: 20px 0;
   display: flex;
@@ -136,7 +146,7 @@ const Input = styled.input`
 `;
 
 const DropDown = styled.ul`
-  width: 70%;
+  width: 50%;
   background-color: white;
   border-left: 1px solid black;
   border-bottom: 1px solid black;
@@ -150,6 +160,7 @@ const DropDown = styled.ul`
 const SearchResult = styled.li`
   background: white;
   margin-bottom: 10px;
+  list-style-type: none;
 `;
 
 const Prediction = styled.span`
@@ -157,7 +168,7 @@ const Prediction = styled.span`
   background: white;
 `;
 
-const ItemsPrediction = styled(Link)`
+const ItemsPrediction = styled.div`
   text-decoration: none;
   color: black;
   font-size: 1em;

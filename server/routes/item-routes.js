@@ -51,22 +51,57 @@ router.post("/offering", auth, async (req, res) => {
   });
 });
 
-router.delete("/offering/:id", auth, async (req, res) => {
-  const id = req.params.id;
+router.delete("/offering/:userid/:id", auth, async (req, res) => {
+  const itemId = req.params.id;
+  const userId = req.params.userid;
   try {
-    const item = await ItemOffering.findById(id);
+    const item = await ItemOffering.findByIdAndDelete(itemId, async (err) => {
+      if (err) {
+        return res
+          .status(400)
+          .json({ message: "Cannot delete", status: "400" });
+      } else {
+        // get user.wanted
+        const offeredItems = (await User.findById({ _id: userId })).offering;
+        // remove item to "delete"
+        const amendedItems = offeredItems.filter(
+          (item) => item._id.toString() !== itemId
+        );
 
-    if (!item) {
-      res.status(404).json({ message: "Item not found", id });
-    }
-    const deletedItem = await item.remove();
-    if (!deletedItem) {
-      res.status(400).json({ message: "Something went wrong. Try again" });
-    }
-    res.status(200).json({ message: "Item deleted", id });
+        await User.findByIdAndUpdate(
+          userId,
+          { offering: amendedItems },
+          (err) => {
+            if (err) {
+              return res
+                .status(400)
+                .json({ message: "Cannot delete", status: "400" });
+            } else {
+              return res
+                .status(200)
+                .json({ message: "Item deleted", status: "200", id: itemId });
+            }
+          }
+        );
+      }
+    });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
+});
+
+router.get("/alloffered", async (req, res) => {
+  await ItemOffering.find({}, (err, result) => {
+    if (err) {
+      return res
+        .status(400)
+        .json({ message: "Cannot get offered items", status: "400" });
+    } else {
+      return res
+        .status(200)
+        .json({ message: "All Offered Items", status: "200", offered: result });
+    }
+  });
 });
 
 // Wanted Item routes
@@ -112,34 +147,56 @@ router.post("/wanted", auth, async (req, res) => {
   });
 });
 
-router.delete("/wanted/:id", auth, async (req, res) => {
-  const id = req.params.id;
+router.delete("/wanted/:userid/:id", auth, async (req, res) => {
+  const itemId = req.params.id;
+  const userId = req.params.userid;
+  console.log("itemId", itemId);
   try {
-    const item = await ItemOffering.findById(id);
+    const item = await ItemWanted.findByIdAndDelete(itemId, async (err) => {
+      if (err) {
+        return res
+          .status(400)
+          .json({ message: "Cannot delete", status: "400" });
+      } else {
+        // get user.wanted
+        const wantedItems = (await User.findById({ _id: userId })).wanted;
+        // remove item to "delete"
+        const amendedItems = wantedItems.filter(
+          (item) => item._id.toString() !== itemId
+        );
 
-    if (!item) {
-      res.status(404).json({ message: "Item not found", id });
-    }
-    const deletedItem = await item.remove();
-    if (!deletedItem) {
-      res.status(400).json({ message: "Something went wrong. Try again" });
-    }
-    res.status(200).json({ message: "Item deleted", id });
+        await User.findByIdAndUpdate(
+          userId,
+          { wanted: amendedItems },
+          (err) => {
+            if (err) {
+              return res
+                .status(400)
+                .json({ message: "Cannot delete", status: "400" });
+            } else {
+              return res
+                .status(200)
+                .json({ message: "Item deleted", status: "200", id: itemId });
+            }
+          }
+        );
+      }
+    });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-router.get("/alloffered", async (req, res) => {
-  await ItemOffering.find({}, (err, result) => {
+router.get("/allwanted", async (req, res) => {
+  await ItemWanted.find({}, (err, result) => {
     if (err) {
       return res
         .status(400)
-        .json({ message: "Cannot get offered items", status: "400" });
+        .json({ message: "Cannot get wanted items", status: "400" });
     } else {
       return res
         .status(200)
-        .json({ message: "All Offered Items", status: "200", offered: result });
+        .json({ message: "All Wanted Items", status: "200", wanted: result });
     }
   });
 });

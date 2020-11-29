@@ -77,6 +77,25 @@ export const deleteWantedItem = (id) => (dispatch, getState) => {
     .catch((err) => console.log(err));
 };
 
+export const getAllWantedItems = () => (dispatch) => {
+  dispatch(setItemsLoading());
+  fetch("/items/allwanted", {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      dispatch({
+        type: "GET_ALL_WANTED_ITEMS",
+        payload: data.wanted,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
 export const setItemsLoading = () => ({
   type: "ITEMS_LOADING",
 });
