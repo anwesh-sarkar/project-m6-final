@@ -11,6 +11,7 @@ const Settings = () => {
   const history = useHistory();
   const { isLoading } = useSelector((state) => state.auth);
   const { user, isAuthenticated } = useSelector((state) => state.auth);
+
   const error = useSelector((state) => state.error);
   const errorMessage = Object.values(error.message);
   const [address, setAddress] = React.useState({
@@ -56,6 +57,7 @@ const Settings = () => {
     if (!isAuthenticated) {
       return history.push("/login");
     }
+    dispatch(clearErrors());
   }, []);
 
   if (isLoading) {

@@ -5,6 +5,7 @@ export const updateAddress = ({ street, city, state, zip, country, user }) => (
   getState
 ) => {
   const token = getState().auth.token;
+  console.log(user);
   fetch("/address/updateaddress", {
     method: "POST",
     headers: {
